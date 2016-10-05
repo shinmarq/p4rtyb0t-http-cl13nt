@@ -55,3 +55,4 @@ partybot.venues.updateWithOrganisationIdAndVenueId(putParams, function(err, resp
 	console.log(err);
 
 });
+
