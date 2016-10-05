@@ -1,16 +1,16 @@
 ##Organizations
 ```js
-var partybot = require
+var partybot = require('partybot-http-client');
 // Get all
 partybot.organisations.getAll(function(err, response, body) {
 	
 	if(response.statusCode == constants.SUCCESS) {
 		console.log(response.statusCode);
- 		console.log(body);
- 	}
- 	else {
- 		console.log(err);
- 	}
+		console.log(body);
+	}
+	else {
+		console.log(err);
+	}
 
 });
 // Get Organisation with id
@@ -88,4 +88,40 @@ partybot.venues.create(params, function(err, response, body) {
 // Update Venue with Organisation Id and Venue Id
 
 // Update Venue with Venue Id
+```
+
+###Events
+```js
+
+var organisationId = '57f3a270f760e4f8ad97eec4';
+var venueId = '57f4681dbb6c3c23633eecc2';
+var eventId = '57f4b1fda9fd7b00113ba6c8';
+
+// Get All Events In Venue In Organisation
+partybot.events.getAllEventsInVenueInOrganisation({organisationId: organisationId, venueId: venueId}, function(err, response, body) {
+	console.log("Error: "+err);
+	console.log("Status Code: "+response.statusCode);
+	console.log("Body :"+JSON.stringify(body));
+});
+
+// Get Event In Venue In Organisation
+partybot.events.getEventInVenueInOrganisation({organisationId: organisationId, venueId: venueId, eventId: eventId}, function(err, response, body) {
+	console.log("Error: "+err);
+	console.log("Status Code: "+response.statusCode);
+	console.log("Body :"+JSON.stringify(body));
+});
+// Create Event
+
+var createParams = {
+		organisationId: organisationId,
+		venueId: venueId,
+		name: "Event",
+		description: "Description of Event"
+}
+
+partybot.events.create(createParams, function(err, response, body) {
+	console.log("Error: "+JSON.stringify(err));
+	console.log("Status Code: "+response.statusCode);
+	console.log("Body :"+JSON.stringify(body));
+});
 ```
