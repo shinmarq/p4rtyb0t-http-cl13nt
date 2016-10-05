@@ -1,13 +1,12 @@
-var partybot = require('./'),
-	constants = require('./constants');
+var partybot = require('../'),
+	constants = require('../constants');
 
-// partybot.organisations.getAll(function(err, response, body) {
+partybot.organisations.getAll(function(err, response, body) {
 	
-// 		console.log(response.statusCode);
-// 		console.log(body);
-// 		console.log(err);
+		console.log(body);
+		console.log(err);
 
-// });
+});
 
 // partybot.organisations.getWithId('57f3a270f760e4f8ad97eec4', function(err, response, body) {
 	
