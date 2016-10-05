@@ -1,4 +1,3 @@
-"use strict";
 var request = require('request'),
 	MapResponse = require('../response_body_mapper/MapResponse'),
 	constants = require('../constants');

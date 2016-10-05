@@ -1,4 +1,3 @@
-"use strict";
 var constants = require('./constants'),
 	organisations = require('./modules/organisations'),
 	venues = require('./modules/venues'),

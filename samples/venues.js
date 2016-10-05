@@ -1,4 +1,3 @@
-"use strict";
 var partybot = require('./'),
 	constants = require('./constants');
 

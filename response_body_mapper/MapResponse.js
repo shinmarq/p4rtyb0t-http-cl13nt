@@ -1,4 +1,3 @@
-"use strict"
 function MapResponse(argument) {
 	if(typeof argument == 'string') {
 		this.argument = JSON.parse(argument);
