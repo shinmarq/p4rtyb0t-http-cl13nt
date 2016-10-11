@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.0.1",
+    "cloudinary": "^1.4.3",
+    "mime-types": "^2.1.12",
     "request": "^2.75.0"
   }
 }
