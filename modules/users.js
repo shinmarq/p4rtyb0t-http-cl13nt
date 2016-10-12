@@ -1,9 +1,10 @@
 var request = require('request'),
-cloudinary = require('cloudinary'),
-async = require('async'),
-mime = require('mime-types'),
-MapResponse = require('../response_body_mapper/MapResponse'),
-constants = require('../constants');
+	cloudinary = require('cloudinary'),
+	async = require('async'),
+	mime = require('mime-types'),
+	_ = require('underscore'),
+	MapResponse = require('../response_body_mapper/MapResponse'),
+	constants = require('../constants');
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/organisations";
 
@@ -29,35 +30,39 @@ module.exports.create = function(params, callback) {
 			if(!err) {
 				callback(null, response, body);
 			} else {
-				callback(err, null, null);
+				callback(err, response, null);
 			}
-		})
+		});
 
-	function validateMimeType(options, callback) {
-		mime = mime.lookup(options.body.image);
-		callback(null, null, mime);
-	}
+	// function validateMimeType(options, callback) {
+	// 	mime = mime.lookup(options.body.image);
+	// 	callback(null, null, mime);
+	// }
 
 	function uploadToCloudinary(options, callback) {
 		cloudinary.uploader.upload(options.body.image, function(result) {
 			if(result) {
 				options.body.image = result.secure_url;
-				callback(null, options, result);
+				callback(null, options);
 			} else {
-				callback("Upload failed. Please try again", null, null);
+				callback("\nUpload failed. Please try again", null);
 			}
 		});	
 	}
 	
-	function postCreateUser(err, options, callback) {
+	function postCreateUser(options, callback) {
+		options.body = _.omit(options.body, 'organisationId');
 		request(options, function (error, response, body) {
-
-			if(!error && response.statusCode == constants.CREATED) {
+			if(!error && response.statusCode == constants.SUCCESS) {
 				var mapResponse = new MapResponse(body);
 				var newBody = mapResponse.mapData();
+
 				callback(null, response, newBody);
 			} else {
-				callback(body, response, null);
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+
+				callback(newBody, response, null);
 			}
 		});
 	}
@@ -65,14 +70,16 @@ module.exports.create = function(params, callback) {
 // Get All Users
 module.exports.getAllInOrganisation = function(params, callback) {
 	request.get(URL +"/" +params.organisationId + "/users/", function (error, response, body) {
-		if(error == null && response.statusCode == constants.SUCCESS) {
+		if(!error && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, response, newBody);
 		} else {
-			callback(body, response, null);
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(newBody, response, null);
 		}
-	});	
+	});
 }
 
 // Get single User

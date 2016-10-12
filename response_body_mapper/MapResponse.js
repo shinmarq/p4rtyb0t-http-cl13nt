@@ -8,7 +8,7 @@ function MapResponse(argument) {
 };
 
 MapResponse.prototype.mapData = function() {
-	return this.argument.d || this.argument;
+	return this.argument.d || this.argument.errors || this.argument;
 };
 
-module.exports=MapResponse
+module.exports=MapResponse;
