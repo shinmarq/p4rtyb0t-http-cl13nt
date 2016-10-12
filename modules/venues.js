@@ -43,7 +43,7 @@ function getWithId(venueId, callback) {
 function create(params, callback) {
 	var options = {
 		method: 'post',
-		body: { venue: { name: params.name, description: params.description } },
+		body: { name: params.name, description: params.description },
 		json: true,
 		url: URL +"/" +params.organisationId + "/venues"
 	}
