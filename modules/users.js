@@ -88,5 +88,54 @@ module.exports.getWithOrganisationIdAndUserId = function(params, callback) {
 }
 
 module.exports.update = function(params, callback) {
-	callback();
+	
+	var organisationId = params.organisationId;
+	var userId = params.userId;
+
+	params = _.omit(params, ['organisationId', 'userId']);
+	var options = {
+		method: 'put',
+		body: params,
+		json: true,
+		url: URL +"/" +organisationId + "/users/"+userId
+	}
+
+	async.waterfall([
+		async.apply(uploadToCloudinary, options),
+		updateUser
+		], 
+		function(err, response, body) {
+			if(!err) {
+				callback(null, response, body);
+			} else {
+				callback(err, response, null);
+			}
+		});
+
+	function uploadToCloudinary(options, callback) {
+		if(options.body.image) {
+			cloudinary.uploader.upload(options.body.image, function(result) {
+				if(result) {
+					options.body.image = result.secure_url;
+					callback(null, options);
+				} else {
+					callback("Upload failed. Please try again", null);
+				}
+			});	
+		} else {
+			callback(null, options);
+		}
+	}
+
+	function updateUser(options, callback) {
+		request(options, function (error, response, body) {
+			if(error == null && response.statusCode == constants.SUCCESS) {
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+				callback(null, response, newBody);
+			} else {
+				callback(body, response, null);
+			}
+		});
+	}
 }

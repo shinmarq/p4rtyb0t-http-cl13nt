@@ -65,7 +65,7 @@ function updateWithOrganisationIdAndVenueId(params, callback) {
 
 	var options = {
 		method: 'put',
-		body: { venue: { name: params.name, description: params.description } },
+		body: { name: params.name, description: params.description },
 		json: true,
 		url: URL +"/" +params.organisationId + "/venues/"+params.venueId
 	}
