@@ -40,18 +40,18 @@ partybot.venues.create(params, function(err, response, body) {
 
 });
 
-var putParams = {
+organisationId = '57f3a270f760e4f8ad97eec4';
+venueId = '57ff62f710b78b00117ee63a';
+var updateParams = {
 	organisationId: organisationId,
 	venueId: venueId,
-	name: "Holy",
-	description: "Shit"
+	name: "Venue Name",
+	description: "Venue description",
+	image: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/2/000/1f2/03a/1a0ed21.jpg"
 };
 
-partybot.venues.updateWithOrganisationIdAndVenueId(putParams, function(err, response, body) {
-	
-	console.log(response.statusCode);
-	console.log(body);
-	console.log(err);
-
+partybot.venues.updateWithOrganisationIdAndVenueId(updateParams, function(err, response, body) {
+	cl("Error: " +JSON.stringify(err, null, 2));
+	cl("Response : " +response.statusCode || null);
+	cl("Body: " +JSON.stringify(body, null, 2));
 });
-
