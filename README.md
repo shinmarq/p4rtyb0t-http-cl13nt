@@ -71,10 +71,11 @@ partybot.venues.getWithId(venueId, function(err, response, body) {
 });
 
 // Create venue in a organisation
-var params = {
+var createParams = {
 	organisationId: organisationId,
-	name: "Valkyrie",
-	description: "Description of Valkyrie"
+	name: "Venue Name",
+	description: "Venue description",
+	image: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/2/000/1f2/03a/1a0ed21.jpg"
 };
 
 partybot.venues.create(params, function(err, response, body) {

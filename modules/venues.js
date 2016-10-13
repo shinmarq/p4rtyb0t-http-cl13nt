@@ -1,9 +1,13 @@
 var request = require('request'),
+	async = require('async'),
+	_ = require('underscore'),
+	Cloudinary = require('./Cloudinary/cloudinary'),
 	MapResponse = require('../response_body_mapper/MapResponse'),
 	constants = require('../constants');
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/organisations";
 const VENUE_URL = constants.BASE_PATH + constants.API_PATH + "/venues";
+
 function getAllInOrganisation (organisationId, callback) {
 	request.get(URL+"/"+organisationId+"/venues", function (error, response, body) {
 		if(error == null && response.statusCode == constants.SUCCESS) {
@@ -41,47 +45,74 @@ function getWithId(venueId, callback) {
 }
 
 function create(params, callback) {
+	var createUrl = URL +"/" +params.organisationId + "/venues";
+	params = _.omit(params, 'organisationId');
 	var options = {
 		method: 'post',
-		body: { name: params.name, description: params.description },
+		body: params,
 		json: true,
-		url: URL +"/" +params.organisationId + "/venues"
+		url: createUrl
+	};
+
+	async.waterfall([
+		async.apply(Cloudinary.uploadToCloudinary, options),
+		postSaveVenue
+		], function(err, response, body) {
+			if(!err) {
+				callback(null, response, body);
+			} else {
+				callback(err, response, null);
+			}
+		});
+	
+	function postSaveVenue(options, callback) {
+		request(options, function (error, response, body) {
+			if(error == null && response.statusCode == constants.SUCCESS) {
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+				callback(null, response, newBody);
+			} else {
+				callback(body, response, null);
+			}
+		});
 	}
-
-	request(options, function (error, response, body) {
-
-		if(error == null && response.statusCode == constants.CREATED) {
-			var mapResponse = new MapResponse(body);
-			var newBody = mapResponse.mapData();
-			callback(null, response, newBody);
-		} else {
-			callback(body, response, null);
-		}
-	});
+	
 };
 
 
 function updateWithOrganisationIdAndVenueId(params, callback) {
 
+	var updateUrl = URL +"/" +params.organisationId + "/venues/" + params.venueId;
+	params = _.omit(params, ['organisationId', 'venueId']);
 	var options = {
 		method: 'put',
-		body: { name: params.name, description: params.description },
+		body: params,
 		json: true,
-		url: URL +"/" +params.organisationId + "/venues/"+params.venueId
-	}
+		url: updateUrl
+	};
 
-	request(options, function (error, response, body) {
-		console.log(error);
-		console.log(response.statusCode);
-		console.log(body);
-		// if(error == null && response.statusCode == constants.CREATED) {
-		// 	var mapResponse = new MapResponse(body);
-		// 	var newBody = mapResponse.mapData();
-		// 	callback(null, response, newBody);
-		// } else {
-		// 	callback(body, response, null);
-		// }
-	});
+	// async.waterfall([
+	// 	async.apply(Cloudinary.uploadToCloudinary, options),
+	// 	postSaveVenue
+	// 	], function(err, response, body) {
+	// 		if(!err) {
+	// 			callback(null, response, body);
+	// 		} else {
+	// 			callback(err, response, null);
+	// 		}
+	// 	});
+	
+	// function postSaveVenue(options, callback) {
+	// 	request(options, function (error, response, body) {
+	// 		if(error == null && response.statusCode == constants.SUCCESS) {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
+	// 			callback(null, response, newBody);
+	// 		} else {
+	// 			callback(body, response, null);
+	// 		}
+	// 	});
+	// }
 
 };
 
