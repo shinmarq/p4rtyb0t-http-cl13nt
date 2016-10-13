@@ -40,14 +40,18 @@ module.exports.create = function(params, callback) {
 	// }
 
 	function uploadToCloudinary(options, callback) {
-		cloudinary.uploader.upload(options.body.image, function(result) {
-			if(result) {
-				options.body.image = result.secure_url;
-				callback(null, options);
-			} else {
-				callback("\nUpload failed. Please try again", null);
-			}
-		});	
+		if(options.body.image) {
+			cloudinary.uploader.upload(options.body.image, function(result) {
+				if(result) {
+					options.body.image = result.secure_url;
+					callback(null, options);
+				} else {
+					callback("Upload failed. Please try again", null);
+				}
+			});	
+		} else {
+			callback(null, options);
+		}
 	}
 	
 	function postCreateUser(options, callback) {
