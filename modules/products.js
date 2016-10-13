@@ -1,5 +1,5 @@
 var request = require('request'),
-	Cloudinary = require('./Cloudinary/Cloudinary'),
+	Cloudinary = require('./Cloudinary/cloudinary'),
 	async = require('async'),
 	_ = require('underscore'),
 	mime = require('mime-types'),
