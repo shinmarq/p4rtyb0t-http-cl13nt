@@ -53,7 +53,48 @@ module.exports.create = function(params, callback) {
 
 // Update a product
 module.exports.update = function(params, callback) {
-	callback();
+	var updateUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/"+ params.productId;
+	var newParams = _.omit(params, ['organisationId', 'venueId', 'productId']);
+	var options = {
+		method: 'put',
+		body: params,
+		json: true,
+		url: updateUrl
+	}
+
+	async.waterfall([
+		async.apply(Cloudinary.uploadToCloudinary, options),
+		postUpdateUser
+		],
+		function(err, response, body) {
+			if(!err) {
+				callback(null, response, body);
+			} else {
+				callback(err, response, null);
+			}
+		});
+
+	// function validateMimeType(options, callback) {
+	// 	mime = mime.lookup(options.body.image);
+	// 	callback(null, null, mime);
+	// }
+		
+	function postUpdateUser(options, callback) {
+		options.body = _.omit(options.body, ['organisationId', 'venueId']);
+		request(options, function (error, response, body) {
+			if(!error && response.statusCode == constants.SUCCESS) {
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+
+				callback(null, response, newBody);
+			} else {
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+
+				callback(newBody, response, null);
+			}
+		});
+	}
 }
 
 // Get All Products
