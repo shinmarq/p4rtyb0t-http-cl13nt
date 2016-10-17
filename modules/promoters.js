@@ -1,7 +1,7 @@
 var request = require('request'),
 	async = require('async'),
 	_ = require('underscore'),
-	Cloudinary = require('./Cloudinary/cloudinary'),
+	Cloudinary = require('./Cloudinary/Cloudinary'),
 	MapResponse = require('../response_body_mapper/MapResponse'),
 	constants = require('../constants');
 
