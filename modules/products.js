@@ -103,7 +103,10 @@ module.exports.getProducts = function(params, callback) {
 	if(params.productId) {
 		getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/"+ params.productId;
 	} else {
-		getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/";
+		if(params.tags)
+			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/?tags="+params.tags;
+		else
+			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/";
 	}
 	request.get(getUrl, function (error, response, body) {
 		if(!error && response.statusCode == constants.SUCCESS) {

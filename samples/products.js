@@ -1,8 +1,8 @@
 var partybot = require('./'),
 	constants = require('./constants');
 
-var organisationId =  "57f3a270f760e4f8ad97eec4";
-var venueId = "57ff62f710b78b00117ee63a";
+var organisationId =  "5800471acb97300011c68cf7";
+var venueId = "5800889684555e0011585f3c";
 var createProduct = {
 	"name": "product name",
 	"description": "prod description",
@@ -16,10 +16,11 @@ partybot.products.create(createProduct, function(errors, response, body) {
 	console.log("Body: "+JSON.stringify(body) || null);
 });
 
-Get All
+// Get All
 var getAllParams = {
 	organisationId: organisationId,
-	venueId: venueId
+	venueId: venueId,
+	tags: 'table'
 };
 partybot.products.getProducts(getAllParams, function(errors, response, body) {
 	console.log("Errors: "+JSON.stringify(errors, null, 2) || null);
@@ -27,7 +28,7 @@ partybot.products.getProducts(getAllParams, function(errors, response, body) {
 	console.log("Body: "+JSON.stringify(body) || null);
 });
 
-Get One
+// Get One
 var productId = '57ff4e6c10b78b00117ee62d';
 var getOneParams = {
 	organisationId: organisationId,
