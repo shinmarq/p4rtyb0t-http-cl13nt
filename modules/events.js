@@ -1,4 +1,5 @@
 var request = require('request'),
+	_ = require('underscore'),
 	MapResponse = require('../response_body_mapper/MapResponse'),
 	constants = require('../constants');
 
@@ -32,11 +33,27 @@ function getEventInVenueInOrganisation(params, callback) {
 			} else {
 				callback(error, response, null);
 			}
-	});	
+	});
 }
 
+function getEventsInOrganisation(params, callback) {
+	var options = {
+		url: URL+"/"+params.organisationId+"/events",
+		qs: _.omit(params, ['organisationId'])
+	};
+	request.get(
+		options, 
+		function(error, response, body) {
+			if(!error && response.statusCode == constants.SUCCESS) {
+				var mapResponse = new MapResponse(body);
+				var newBody = mapResponse.mapData();
+				callback(null, response, newBody);
+			} else {
+				callback(error, response, null);
+			}
+	});
+}
 function create(params, callback) {
-// https://partybot-rocks-admin.herokuapp.com/api/organisations/57f3a270f760e4f8ad97eec4/venues/57f4681dbb6c3c23633eecc2/events
 	var options = {
 		method: 'post',
 		body: params,
@@ -58,5 +75,6 @@ function create(params, callback) {
 module.exports = {
 	getAllEventsInVenueInOrganisation: getAllEventsInVenueInOrganisation,
 	getEventInVenueInOrganisation: getEventInVenueInOrganisation,
+	getEventsInOrganisation: getEventsInOrganisation,
 	create: create
 }

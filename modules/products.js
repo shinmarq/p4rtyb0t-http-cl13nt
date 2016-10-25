@@ -120,3 +120,27 @@ module.exports.getProducts = function(params, callback) {
 		}
 	});
 }
+
+module.exports.getProductsInOrganisation = function (params, callback) {
+	var getUrl;
+	if(params.productId) {
+		getUrl = URL +"/" +params.organisationId + "/products/"+ params.productId;
+	} else {
+		getUrl = URL +"/" +params.organisationId + "/products/";
+	}
+	var options = {
+		url: getUrl,
+		qs: _.omit(params, ['organisationId'])
+	};
+	request.get(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(newBody, response, null);
+		}
+	});
+}

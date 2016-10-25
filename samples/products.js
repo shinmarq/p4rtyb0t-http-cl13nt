@@ -57,3 +57,19 @@ partybot.products.update(updateParams, function(errors, response, body) {
 	console.log("Response status code: "+response.statusCode || null);
 	console.log("Body: "+JSON.stringify(body) || null);
 });
+
+// Getting all Product in an Organisation
+var organisationId =  "5800471acb97300011c68cf7";
+var venueId = "580dc5a190e5a70011063775";
+var getAllParams = {
+	organisationId: organisationId,
+	venue_id: venueId,
+	page: 1	// Optional
+	limit: 5 // Optional
+};
+
+partybot.products.getProductsInOrganisation(getAllParams, function(err, response, body) {
+	console.log(response.statusCode);
+	console.log(body);
+	console.log(err);
+});

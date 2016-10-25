@@ -8,8 +8,12 @@ var request = require('request'),
 const URL = constants.BASE_PATH + constants.API_PATH + "/organisations";
 const VENUE_URL = constants.BASE_PATH + constants.API_PATH + "/venues";
 
-function getAllInOrganisation (organisationId, callback) {
-	request.get(URL+"/"+organisationId+"/venues", function (error, response, body) {
+function getAllInOrganisation (params, callback) {
+	var options = {
+		url: URL+"/"+params.organisationId+"/venues",
+		qs: _.omit(params, ['organisationId'])
+	};
+	request.get(options, function (error, response, body) {
 		if(error == null && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
@@ -20,8 +24,12 @@ function getAllInOrganisation (organisationId, callback) {
 	});
 };
 
-function getWithOriganisationIdAndVenueId (organisationId, venueId, callback) {
-	request.get(URL+"/"+organisationId+"/venues/"+venueId, function (error, response, body) {
+function getWithOriganisationIdAndVenueId (params, callback) {
+	var options = {
+		url: URL+"/"+params.organisationId+"/venues/"+params.venueId,
+		qs: _.omit(params, ['organisationId', 'venueId'])
+	}
+	request.get(options, function (error, response, body) {
 		if(error == null && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
