@@ -54,11 +54,13 @@ function getEventsInOrganisation(params, callback) {
 	});
 }
 function create(params, callback) {
+	const POST_URL = URL+"/"+params.organisationId+"/venues/"+params.venueId+"/events";
+	var newParams = _.omit(params, ['organisationId', 'venueId']);
 	var options = {
 		method: 'post',
-		body: params,
+		body: newParams,
 		json: true,
-		url: URL
+		url: POST_URL
 	}
 	request(options, function (error, response, body) {
 		// console.log(error, response.statusCode, body.d);
