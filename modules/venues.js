@@ -62,28 +62,37 @@ function create(params, callback) {
 		url: createUrl
 	};
 
-	async.waterfall([
-		async.apply(Cloudinary.uploadToCloudinary, options),
-		postSaveVenue
-		], function(err, response, body) {
-			if(!err) {
-				callback(null, response, body);
-			} else {
-				callback(err, response, null);
-			}
-		});
+	request(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
+	// async.waterfall([
+	// 	async.apply(Cloudinary.uploadToCloudinary, options),
+	// 	postSaveVenue
+	// 	], function(err, response, body) {
+	// 		if(!err) {
+	// 			callback(null, response, body);
+	// 		} else {
+	// 			callback(err, response, null);
+	// 		}
+	// 	});
 	
-	function postSaveVenue(options, callback) {
-		request(options, function (error, response, body) {
-			if(error == null && response.statusCode == constants.SUCCESS) {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
-				callback(null, response, newBody);
-			} else {
-				callback(body, response, null);
-			}
-		});
-	}
+	// function postSaveVenue(options, callback) {
+	// 	request(options, function (error, response, body) {
+	// 		if(error == null && response.statusCode == constants.SUCCESS) {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
+	// 			callback(null, response, newBody);
+	// 		} else {
+	// 			callback(body, response, null);
+	// 		}
+	// 	});
+	// }
 	
 };
 
@@ -99,28 +108,37 @@ function updateWithOrganisationIdAndVenueId(params, callback) {
 		url: updateUrl
 	};
 
-	async.waterfall([
-		async.apply(Cloudinary.uploadToCloudinary, options),
-		postSaveVenue
-		], function(err, response, body) {
-			if(!err) {
-				callback(null, response, body);
-			} else {
-				callback(err, response, null);
-			}
-		});
+	request(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
+	// async.waterfall([
+	// 	async.apply(Cloudinary.uploadToCloudinary, options),
+	// 	postSaveVenue
+	// 	], function(err, response, body) {
+	// 		if(!err) {
+	// 			callback(null, response, body);
+	// 		} else {
+	// 			callback(err, response, null);
+	// 		}
+	// 	});
 	
-	function postSaveVenue(options, callback) {
-		request(options, function (error, response, body) {
-			if(error == null && response.statusCode == constants.SUCCESS) {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
-				callback(null, response, newBody);
-			} else {
-				callback(body, response, null);
-			}
-		});
-	}
+	// function postSaveVenue(options, callback) {
+	// 	request(options, function (error, response, body) {
+	// 		if(error == null && response.statusCode == constants.SUCCESS) {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
+	// 			callback(null, response, newBody);
+	// 		} else {
+	// 			callback(body, response, null);
+	// 		}
+	// 	});
+	// }
 
 };
 
