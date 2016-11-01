@@ -32,4 +32,11 @@ partybot.organisations.getAll(function(err, response, body) {
 
 // });
 
-// console.log(partybot);
+// var params={
+// 	organisationId: '5800471acb97300011c68cf7'
+// };
+// partybot.organisations.deleteWithId(params, function(err, response, body) {
+// 	console.log(response.statusCode);
+// 	console.log(body);
+// 	console.log(err);
+// });

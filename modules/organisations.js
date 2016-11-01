@@ -62,12 +62,34 @@ function updateWithId(organisationId, params, callback) {
 			callback(null, response, newBody);
 		} else {
 			callback(body, response, null);
-		}		
+		}
 	});
 }
+
+function deleteWithId(params, callback) {
+
+	var options = {
+		method: 'delete',
+		body: params,
+		json: true,
+		url: GET_ALL+'/'+params.organisationId
+	};
+
+	request(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
+}
+
 module.exports={
 	getAll: getAll,
 	getWithId: getWithId,
 	create: create,
-	updateWithId: updateWithId
+	updateWithId: updateWithId,
+	deleteWithId: deleteWithId
 };
