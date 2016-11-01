@@ -146,10 +146,31 @@ function updateVenueWithId(params, callback) {
 	
 
 };
+
+function deleteWithId(params, callback) {
+
+	var deleteUrl = URL +"/" +params.organisationId + "/venues/" + params.venueId;
+	var options = {
+		method: 'delete',
+		url: deleteUrl
+	};
+
+	request(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
+}
+
 module.exports = {
 	getAllInOrganisation: getAllInOrganisation,
 	getWithOriganisationIdAndVenueId: getWithOriganisationIdAndVenueId,
 	getWithId: getWithId,
 	create: create,
-	updateWithOrganisationIdAndVenueId: updateWithOrganisationIdAndVenueId
+	updateWithOrganisationIdAndVenueId: updateWithOrganisationIdAndVenueId,
+	deleteWithId: deleteWithId
 }

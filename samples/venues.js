@@ -1,6 +1,6 @@
 var partybot = require('./'),
 constants = require('./constants');
-
+var cl = console.log;
 var getAllParams = {
 	organisationId: organisationId,
 	page: 2,
@@ -57,4 +57,14 @@ partybot.venues.updateWithOrganisationIdAndVenueId(updateParams, function(err, r
 	cl("Error: " +JSON.stringify(err, null, 2));
 	cl("Response : " +response.statusCode || null);
 	cl("Body: " +JSON.stringify(body, null, 2));
+});
+
+var params={
+	organisationId: '5800471acb97300011c68cf7',
+	venueId: '581328c7e98ce10011a3b53a'
+};
+partybot.venues.deleteWithId(params, function(err, response, body) {
+	console.log(response.statusCode);
+	console.log(body);
+	console.log(err);
 });
