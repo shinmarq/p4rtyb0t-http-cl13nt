@@ -16,39 +16,54 @@ module.exports.create = function(params, callback) {
 		url: URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products"
 	}
 
-	async.waterfall([
-		async.apply(Cloudinary.uploadToCloudinary, options),
-		postCreateUser
-		],
-		function(err, response, body) {
-			if(!err) {
-				callback(null, response, body);
-			} else {
-				callback(err, response, null);
-			}
-		});
+	options.body = _.omit(options.body, ['organisationId', 'venueId']);
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
 
-	// function validateMimeType(options, callback) {
-	// 	mime = mime.lookup(options.body.image);
-	// 	callback(null, null, mime);
-	// }
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
+
+	// async.waterfall([
+	// 	async.apply(Cloudinary.uploadToCloudinary, options),
+	// 	postCreateUser
+	// 	],
+	// 	function(err, response, body) {
+	// 		if(!err) {
+	// 			callback(null, response, body);
+	// 		} else {
+	// 			callback(err, response, null);
+	// 		}
+	// 	});
+
+	// // function validateMimeType(options, callback) {
+	// // 	mime = mime.lookup(options.body.image);
+	// // 	callback(null, null, mime);
+	// // }
 		
-	function postCreateUser(options, callback) {
-		options.body = _.omit(options.body, ['organisationId', 'venueId']);
-		request(options, function (error, response, body) {
-			if(!error && response.statusCode == constants.SUCCESS) {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
+	// function postCreateUser(options, callback) {
+	// 	options.body = _.omit(options.body, ['organisationId', 'venueId']);
+	// 	request(options, function (error, response, body) {
+	// 		if(!error && response.statusCode == constants.SUCCESS) {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
 
-				callback(null, response, newBody);
-			} else {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
+	// 			callback(null, response, newBody);
+	// 		} else {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
 
-				callback(newBody, response, null);
-			}
-		});
-	}
+	// 			callback(newBody, response, null);
+	// 		}
+	// 	});
+	// }
 }
 
 // Update a product
@@ -57,44 +72,57 @@ module.exports.update = function(params, callback) {
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'productId']);
 	var options = {
 		method: 'put',
-		body: params,
+		body: newParams,
 		json: true,
 		url: updateUrl
 	}
 
-	async.waterfall([
-		async.apply(Cloudinary.uploadToCloudinary, options),
-		postUpdateUser
-		],
-		function(err, response, body) {
-			if(!err) {
-				callback(null, response, body);
-			} else {
-				callback(err, response, null);
-			}
-		});
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
 
-	// function validateMimeType(options, callback) {
-	// 	mime = mime.lookup(options.body.image);
-	// 	callback(null, null, mime);
-	// }
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
+	// async.waterfall([
+	// 	async.apply(Cloudinary.uploadToCloudinary, options),
+	// 	postUpdateUser
+	// 	],
+	// 	function(err, response, body) {
+	// 		if(!err) {
+	// 			callback(null, response, body);
+	// 		} else {
+	// 			callback(err, response, null);
+	// 		}
+	// 	});
+
+	// // function validateMimeType(options, callback) {
+	// // 	mime = mime.lookup(options.body.image);
+	// // 	callback(null, null, mime);
+	// // }
 		
-	function postUpdateUser(options, callback) {
-		options.body = _.omit(options.body, ['organisationId', 'venueId']);
-		request(options, function (error, response, body) {
-			if(!error && response.statusCode == constants.SUCCESS) {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
+	// function postUpdateUser(options, callback) {
+	// 	options.body = _.omit(options.body, ['organisationId', 'venueId']);
+	// 	request(options, function (error, response, body) {
+	// 		if(!error && response.statusCode == constants.SUCCESS) {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
 
-				callback(null, response, newBody);
-			} else {
-				var mapResponse = new MapResponse(body);
-				var newBody = mapResponse.mapData();
+	// 			callback(null, response, newBody);
+	// 		} else {
+	// 			var mapResponse = new MapResponse(body);
+	// 			var newBody = mapResponse.mapData();
 
-				callback(newBody, response, null);
-			}
-		});
-	}
+	// 			callback(newBody, response, null);
+	// 		}
+	// 	});
+	// }
 }
 
 // Get All Products
