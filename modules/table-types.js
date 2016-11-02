@@ -13,7 +13,7 @@ module.exports.create = function(params, callback) {
 		method: 'post',
 		body: params,
 		json: true,
-		url: URL +"/" +params.organisationId + "/venues/" +params.venueId + "/table-types"
+		url: URL +"/" +params.organisationId + "/table-types"
 	}
 	options.body = _.omit(options.body, ['organisationId', 'venueId']);
 	request(options, function (error, response, body) {
