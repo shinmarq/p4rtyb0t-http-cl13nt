@@ -6,7 +6,8 @@ var constants = require('./constants'),
 	auth = require('./modules/auth');
 	products = require('./modules/products'),
 	promoters = require('./modules/promoters'),
-	tableTypes = require('./modules/table-types');
+	tableTypes = require('./modules/table-types'),
+	replies = require('./modules/replies');
 
 module.exports.organisations = organisations;
 module.exports.venues = venues;
@@ -16,3 +17,4 @@ module.exports.users = users;
 module.exports.products = products;
 module.exports.promoters = promoters;
 module.exports.tableTypes = tableTypes;
+module.exports.replies = replies;

@@ -2,3 +2,4 @@
 node_modules/
 test.js
 npm-debug.log
+.vs_code/
