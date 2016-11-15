@@ -29,6 +29,22 @@ exports.getReply = function(params, callback) {
 	});
 };
 
+exports.getReplyForBot = function(params, callback) {
+	var options = {};	
+	options = {
+		url: URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies/bot",
+		qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
+	};
+	
+	request.get(options, function(err, res, body) {
+		if(err) {
+			callback(body, res, []);
+		} else {
+			callback(null, res, body);
+		}
+	});
+};
+
 exports.createReply = function(params, callback) {
 	var postUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies";
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'replyId']);
