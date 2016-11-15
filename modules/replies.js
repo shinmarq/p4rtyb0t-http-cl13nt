@@ -7,7 +7,7 @@ var request = require('request'),
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/organisations";
 
-exports.getReply = function(params, callback) {
+exports.getReplyPerVenue = function(params, callback) {
 	var options = {};
 	if(params.replyId) {
 		options = {
@@ -29,8 +29,24 @@ exports.getReply = function(params, callback) {
 	});
 };
 
+exports.getReplyPerOrganisation = function(params, callback) {
+	var options = {};
+	options = {
+		url: URL + "/" + params.organisationId + "/replies",
+		qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
+	};
+	
+	request.get(options, function(err, res, body) {
+		if(err) {
+			callback(body, res, []);
+		} else {
+			callback(null, res, body);
+		}
+	});
+}
+
 exports.getReplyForBot = function(params, callback) {
-	var options = {};	
+	var options = {};
 	options = {
 		url: URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies/bot",
 		qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
