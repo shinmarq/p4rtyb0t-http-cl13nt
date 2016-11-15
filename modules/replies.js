@@ -21,10 +21,12 @@ exports.getReplyPerVenue = function(params, callback) {
 		};
  	}
 	request.get(options, function(err, res, body) {
-		if(err) {
-			callback(body, res, []);
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
 		} else {
-			callback(null, res, body);
+			callback(err, res, null);
 		}
 	});
 };
@@ -37,10 +39,12 @@ exports.getReplyPerOrganisation = function(params, callback) {
 	};
 	
 	request.get(options, function(err, res, body) {
-		if(err) {
-			callback(body, res, []);
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
 		} else {
-			callback(null, res, body);
+			callback(err, res, null);
 		}
 	});
 }
@@ -53,10 +57,12 @@ exports.getReplyForBot = function(params, callback) {
 	};
 	
 	request.get(options, function(err, res, body) {
-		if(err) {
-			callback(body, res, []);
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
 		} else {
-			callback(null, res, body);
+			callback(err, res, null);
 		}
 	});
 };
@@ -72,10 +78,12 @@ exports.createReply = function(params, callback) {
 	};
 
 	request(options, function(err, res, body) {
-		if(err) {
-			callback(body, res, []);
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
 		} else {
-			callback(null, res, body);
+			callback(err, res, null);
 		}
 	});
 };
