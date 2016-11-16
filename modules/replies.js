@@ -33,10 +33,17 @@ exports.getReplyPerVenue = function(params, callback) {
 
 exports.getReplyPerOrganisation = function(params, callback) {
 	var options = {};
-	options = {
-		url: URL + "/" + params.organisationId + "/replies",
-		qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
-	};
+	if(params.replyId){
+		options = {
+			url: URL + "/" + params.organisationId + "/replies/"+params.replyId,
+			qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
+		};
+	} else {
+		options = {
+			url: URL + "/" + params.organisationId + "/replies",
+			qs: _.omit(params, ['organisationId', 'venueId', 'replyId'])
+		};
+	}
 	
 	request.get(options, function(err, res, body) {
 		if(err == null && res.statusCode == constants.SUCCESS) {
