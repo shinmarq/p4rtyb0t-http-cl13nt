@@ -96,7 +96,23 @@ exports.createReply = function(params, callback) {
 };
 
 exports.updateReply = function(params, callback) {
+	var newParams = _.omit(params, ['organisationId', 'venueId', 'replyId']);
+	var options = {
+			url: URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies/" + params.replyId,
+			method: 'put',
+			body: newParams,
+			json: true,
+		};
 
+	request(options, function(err, res, body) {
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
+		} else {
+			callback(err, res, null);
+		}
+	});
 };
 
 exports.deleteReply = function(params, callback) {
