@@ -75,7 +75,12 @@ exports.getReplyForBot = function(params, callback) {
 };
 
 exports.createReply = function(params, callback) {
-	var postUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies";
+	var postUrl = '';
+	if(params.venueId) {
+		postUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/replies";
+	} else {
+		postUrl = URL + "/" + params.organisationId + "/replies";
+	}
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'replyId']);
 	var options = {
 		method: 'post',
