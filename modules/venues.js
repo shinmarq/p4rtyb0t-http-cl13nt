@@ -142,8 +142,25 @@ function updateWithOrganisationIdAndVenueId(params, callback) {
 
 };
 
-function updateVenueWithId(params, callback) {
-	
+function updateWithId(params, callback) {
+	var updateUrl = URL +"/venues/" + params.venueId;
+	params = _.omit(params, ['organisationId', 'venueId']);
+	var options = {
+		method: 'put',
+		body: params,
+		json: true,
+		url: updateUrl
+	};
+
+	request(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
 
 };
 
@@ -172,5 +189,6 @@ module.exports = {
 	getWithId: getWithId,
 	create: create,
 	updateWithOrganisationIdAndVenueId: updateWithOrganisationIdAndVenueId,
+	updateWithId: updateWithId,
 	deleteWithId: deleteWithId
 }

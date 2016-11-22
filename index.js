@@ -7,7 +7,8 @@ var constants = require('./constants'),
 	products = require('./modules/products'),
 	promoters = require('./modules/promoters'),
 	tableTypes = require('./modules/table-types'),
-	replies = require('./modules/replies');
+	replies = require('./modules/replies'),
+	queries = require('./modules/queries');
 
 module.exports.organisations = organisations;
 module.exports.venues = venues;
@@ -18,3 +19,4 @@ module.exports.products = products;
 module.exports.promoters = promoters;
 module.exports.tableTypes = tableTypes;
 module.exports.replies = replies;
+module.exports.queries = queries;
