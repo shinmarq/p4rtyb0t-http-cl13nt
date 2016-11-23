@@ -67,7 +67,7 @@ module.exports.create = function(params, callback) {
 
 // Update a TableType
 module.exports.update = function(params, callback) {
-	var updateUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/table-types/"+ params.tableTypeId;
+	var updateUrl = URL +"/" +params.organisationId + "/table-types/"+ params.tableTypeId;
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'tableTypeId']);
 	var options = {
 		method: 'put',

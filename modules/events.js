@@ -5,7 +5,7 @@ var request = require('request'),
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/organisations";
 const VENUE_URL = constants.BASE_PATH + constants.API_PATH + "/venues";
-
+const EVENT_URL = constants.BASE_PATH + constants.API_PATH + "/events";
 function getAllEventsInVenueInOrganisation(params, callback) {
 	const GET_URL = URL+"/"+params.organisationId+"/venues/"+params.venueId+"/events";
 	request.get(
@@ -53,6 +53,24 @@ function getEventsInOrganisation(params, callback) {
 			}
 	});
 }
+function get(params, callback) {
+	const GET_URL = EVENT_URL + "/" + params.eventId;
+	var newParams = _.omit(params, ['organisationId', 'venueId']);
+	var options = {
+		url: GET_URL,
+		qs: newParams
+	}
+	request.get(options, function (error, response, body) {
+		// console.log(error, response.statusCode, body.d);
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}		
+	});
+}
 function create(params, callback) {
 	const POST_URL = URL+"/"+params.organisationId+"/venues/"+params.venueId+"/events";
 	var newParams = _.omit(params, ['organisationId', 'venueId']);
@@ -74,9 +92,32 @@ function create(params, callback) {
 	});
 }
 
+function update(params, callback) {
+	const UPDATE_URL = EVENT_URL + "/" + params.eventId;
+	var newParams = _.omit(params, ['organisationId', 'venueId', 'eventId']);
+	var options = {
+		method: 'put',
+		body: newParams,
+		json: true,
+		url: UPDATE_URL
+	}
+	request(options, function (error, response, body) {
+		// console.log(error, response.statusCode, body.d);
+		if(error == null && response.statusCode == constants.CREATED) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}		
+	});
+}
+
 module.exports = {
 	getAllEventsInVenueInOrganisation: getAllEventsInVenueInOrganisation,
 	getEventInVenueInOrganisation: getEventInVenueInOrganisation,
 	getEventsInOrganisation: getEventsInOrganisation,
-	create: create
+	create: create,
+	update: update,
+	get: get
 }

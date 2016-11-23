@@ -143,7 +143,7 @@ function updateWithOrganisationIdAndVenueId(params, callback) {
 };
 
 function updateWithId(params, callback) {
-	var updateUrl = URL +"/venues/" + params.venueId;
+	var updateUrl = URL +"/" +params.organisationId + "/venues/" + params.venueId;
 	params = _.omit(params, ['organisationId', 'venueId']);
 	var options = {
 		method: 'put',
