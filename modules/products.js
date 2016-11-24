@@ -68,7 +68,7 @@ module.exports.create = function(params, callback) {
 
 // Update a product
 module.exports.update = function(params, callback) {
-	var updateUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/"+ params.productId;
+	var updateUrl = URL +"/" +params.organisationId + "/products/"+ params.productId;
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'productId']);
 	var options = {
 		method: 'put',
@@ -125,6 +125,29 @@ module.exports.update = function(params, callback) {
 	// }
 }
 
+module.exports.deleteProduct = function(params, callback) {
+	var updateUrl = URL +"/" +params.organisationId + "/products/"+ params.productId;
+	var options = {
+		method: 'delete',
+		json: true,
+		url: updateUrl
+	}
+
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
+
+}
 // Get All Products
 module.exports.getProducts = function(params, callback) {
 	var getUrl;

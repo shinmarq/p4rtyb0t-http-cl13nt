@@ -124,6 +124,28 @@ module.exports.update = function(params, callback) {
 	// }
 }
 
+module.exports.deleteTableType = function(params, callback) {
+	var deleteUrl = URL +"/" +params.organisationId + "/table-types/"+ params.tableTypeId;
+	var options = {
+		method: 'delete',
+		json: true,
+		url: deleteUrl
+	}
+
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
+}
 // Get All TableTypes
 module.exports.getTableType = function(params, callback) {
 	var getUrl;

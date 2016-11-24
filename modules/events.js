@@ -113,11 +113,52 @@ function update(params, callback) {
 	});
 }
 
+function update(params, callback) {
+	const UPDATE_URL = URL + "/" + params.organistationId + "/events/" + params.eventId;
+	var newParams = _.omit(params, ['organisationId', 'venueId', 'eventId']);
+	var options = {
+		method: 'put',
+		body: newParams,
+		json: true,
+		url: UPDATE_URL
+	}
+	request(options, function (error, response, body) {
+		// console.log(error, response.statusCode, body.d);
+		if(error == null && response.statusCode == constants.CREATED) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}		
+	});
+}
+
+function deleteEvent(params, callback) {
+	const DELETE_URL = URL + "/" + params.organistationId + "/events/" + params.eventId;
+	var options = {
+		method: 'delete',
+		json: true,
+		url: DELETE_URL
+	}
+	request(options, function (error, response, body) {
+		// console.log(error, response.statusCode, body.d);
+		if(error == null && response.statusCode == constants.CREATED) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}		
+	});
+}
+
 module.exports = {
 	getAllEventsInVenueInOrganisation: getAllEventsInVenueInOrganisation,
 	getEventInVenueInOrganisation: getEventInVenueInOrganisation,
 	getEventsInOrganisation: getEventsInOrganisation,
 	create: create,
 	update: update,
+	deleteEvent: deleteEvent,
 	get: get
 }
