@@ -7,7 +7,8 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/token";
 module.exports.getToken = function(params, callback) {
 	var options = {
 		headers: {
-			Authorization:'Basic b2ZmaWNpYWxBcGlDbGllbnQ6QzBGRkVF'
+			Authorization:'Basic b2ZmaWNpYWxBcGlDbGllbnQ6QzBGRkVF',
+			'WWW-Authenticate': 'Basic b2ZmaWNpYWxBcGlDbGllbnQ6QzBGRkVF'
 		},
 		method: 'post',
 		body: params,

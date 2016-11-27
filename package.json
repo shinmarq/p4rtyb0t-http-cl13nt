@@ -1,10 +1,10 @@
 {
   "name": "partybot-http-client",
-  "version": "0.0.1-beta-40",
+  "version": "0.0.1-beta-41",
   "description": "Party Bot Http Client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "./node_modules/.bin/nodemon test.js"
   },
   "author": "",
   "license": "ISC",
