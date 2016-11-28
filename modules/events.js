@@ -159,7 +159,7 @@ function getSorted(params, callback) {
 		url: GET_URL,
 		qs: params
 	}
-	console.log(options);
+
 	request.get(options, function (error, response, body) {
 		// console.log(error, response.statusCode, body.d);
 		if(error == null && response.statusCode == constants.CREATED) {
