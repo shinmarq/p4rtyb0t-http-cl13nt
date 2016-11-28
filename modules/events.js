@@ -92,29 +92,29 @@ function create(params, callback) {
 	});
 }
 
-function update(params, callback) {
-	const UPDATE_URL = EVENT_URL + "/" + params.eventId;
-	var newParams = _.omit(params, ['organisationId', 'venueId', 'eventId']);
-	var options = {
-		method: 'put',
-		body: newParams,
-		json: true,
-		url: UPDATE_URL
-	}
-	request(options, function (error, response, body) {
-		// console.log(error, response.statusCode, body.d);
-		if(error == null && response.statusCode == constants.CREATED) {
-			var mapResponse = new MapResponse(body);
-			var newBody = mapResponse.mapData();
-			callback(null, response, newBody);
-		} else {
-			callback(body, response, null);
-		}		
-	});
-}
+// function update(params, callback) {
+// 	const UPDATE_URL = EVENT_URL + "/" + params.eventId;
+// 	var newParams = _.omit(params, ['organisationId', 'venueId', 'eventId']);
+// 	var options = {
+// 		method: 'put',
+// 		body: newParams,
+// 		json: true,
+// 		url: UPDATE_URL
+// 	}
+// 	request(options, function (error, response, body) {
+// 		// console.log(error, response.statusCode, body.d);
+// 		if(error == null && response.statusCode == constants.CREATED) {
+// 			var mapResponse = new MapResponse(body);
+// 			var newBody = mapResponse.mapData();
+// 			callback(null, response, newBody);
+// 		} else {
+// 			callback(body, response, null);
+// 		}		
+// 	});
+// }
 
 function update(params, callback) {
-	const UPDATE_URL = URL + "/" + params.organistationId + "/events/" + params.eventId;
+	const UPDATE_URL = URL + "/" + params.organisationId + "/events/" + params.eventId;
 	var newParams = _.omit(params, ['organisationId', 'venueId', 'eventId']);
 	var options = {
 		method: 'put',
@@ -135,7 +135,7 @@ function update(params, callback) {
 }
 
 function deleteEvent(params, callback) {
-	const DELETE_URL = URL + "/" + params.organistationId + "/events/" + params.eventId;
+	const DELETE_URL = URL + "/" + params.organisationId + "/events/" + params.eventId;
 	var options = {
 		method: 'delete',
 		json: true,
@@ -149,14 +149,33 @@ function deleteEvent(params, callback) {
 			callback(null, response, newBody);
 		} else {
 			callback(body, response, null);
-		}		
+		}
 	});
 }
 
+function getSorted(params, callback) {
+	const GET_URL = URL + "/" + params.organisationId + "/events/bot";
+	var options = {
+		url: GET_URL,
+		qs: params
+	}
+	console.log(options);
+	request.get(options, function (error, response, body) {
+		// console.log(error, response.statusCode, body.d);
+		if(error == null && response.statusCode == constants.CREATED) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}		
+	});
+};
 module.exports = {
 	getAllEventsInVenueInOrganisation: getAllEventsInVenueInOrganisation,
 	getEventInVenueInOrganisation: getEventInVenueInOrganisation,
 	getEventsInOrganisation: getEventsInOrganisation,
+	getSorted: getSorted,
 	create: create,
 	update: update,
 	deleteEvent: deleteEvent,
