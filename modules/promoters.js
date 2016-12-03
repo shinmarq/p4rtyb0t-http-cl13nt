@@ -51,7 +51,6 @@ function create(params, callback) {
 	});
 };
 
-
 function updatePromoter(params, callback) {
 	var updateUrl = URL +"/" +params.organisationId + "/promoters/" + params.promoterId;
 	params = _.omit(params, ['organisationId', 'promoterId']);
@@ -78,8 +77,24 @@ function updatePromoter(params, callback) {
 	});
 };
 
+function getPromoterByCode(params, callback) {
+	var organisationId = params.organisationId;
+	var getUrl = URL+"/"+organisationId+"/promoter-code/"+params.promoterCode;
+
+	request.get(getUrl, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(error, response, null);
+		}
+	});
+}
+
 module.exports = {
 	getPromoters: getPromoters,
 	create: create,
-	updatePromoter: updatePromoter
+	updatePromoter: updatePromoter,
+	getPromoterByCode: getPromoterByCode
 }
