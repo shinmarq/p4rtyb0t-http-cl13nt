@@ -55,6 +55,20 @@ function create(params, callback) {
 function update(params, callback) {
 	var updateUrl = URL +"/" +params.organisationId + "/promoters/" + params.promoterId;
 	params = _.omit(params, ['organisationId', 'promoterId']);
+
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
 };
 
 module.exports = {
