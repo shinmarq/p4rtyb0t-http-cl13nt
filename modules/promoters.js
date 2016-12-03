@@ -52,9 +52,16 @@ function create(params, callback) {
 };
 
 
-function update(params, callback) {
+function updatePromoter(params, callback) {
 	var updateUrl = URL +"/" +params.organisationId + "/promoters/" + params.promoterId;
 	params = _.omit(params, ['organisationId', 'promoterId']);
+
+	var options = {
+		method: 'put',
+		body: params,
+		json: true,
+		url: updateUrl
+	};
 
 	request(options, function (error, response, body) {
 		if(!error && response.statusCode == constants.SUCCESS) {
@@ -74,4 +81,5 @@ function update(params, callback) {
 module.exports = {
 	getPromoters: getPromoters,
 	create: create,
+	updatePromoter: updatePromoter
 }
