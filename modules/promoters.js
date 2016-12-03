@@ -82,12 +82,13 @@ function getPromoterByCode(params, callback) {
 	var getUrl = URL+"/"+organisationId+"/promoter-code/"+params.promoterCode;
 
 	request.get(getUrl, function (error, response, body) {
-		if(error == null && response.statusCode == constants.SUCCESS) {
+		
+		if(response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, response, newBody);
 		} else {
-			callback(error, response, null);
+			callback(body, response, null);
 		}
 	});
 }
