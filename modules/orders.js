@@ -49,3 +49,24 @@ module.exports.createOrder = function(params, callback) {
 		}
 	});
 }
+
+module.exports.udpateOrder = function(params, callback) {
+	var UPDATE_URL = URL+"/"+params.organisationId+"/orders/"+params.orderId;
+	var newParams = _.omit(params, ['organsiationId', '_id']);
+	var options = {
+		url: UPDATE_URL,
+		method: 'put',
+		json: true,
+		body: newParams
+	};
+
+	request(options, function(error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(body, response, null);
+		}
+	});
+}
