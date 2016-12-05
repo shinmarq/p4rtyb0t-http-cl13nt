@@ -68,9 +68,11 @@ exports.getQueryForBot = function(params, callback) {
 
 	options = {
 		url: getUrl,
-		qs: _.omit(params, ['organisationId', 'venueId', 'queryId'])
+		qs: _.mapObject( _.omit(params, ['organisationId', 'venueId', 'queryId']), function(value, index) {
+			return encodeURIComponent(value);
+		})
 	};
-	
+
 	request.get(options, function(err, res, body) {
 		if(err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
