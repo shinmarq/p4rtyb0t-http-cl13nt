@@ -57,9 +57,17 @@ exports.getQueryPerOrganisation = function(params, callback) {
 }
 
 exports.getQueryForBot = function(params, callback) {
+	var getUrl = '';
 	var options = {};
+
+	if(params.venueId) {
+		getUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/queries";
+	} else {
+		getUrl = URL + "/" + params.organisationId + "/queries/bot";
+	}
+
 	options = {
-		url: URL + "/" + params.organisationId + "/venues/" + params.venueId + "/queries/bot",
+		url: getUrl,
 		qs: _.omit(params, ['organisationId', 'venueId', 'queryId'])
 	};
 	
@@ -69,7 +77,7 @@ exports.getQueryForBot = function(params, callback) {
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
 		} else {
-			callback(err, res, null);
+			callback(body, res, null);
 		}
 	});
 };
@@ -89,7 +97,6 @@ exports.createQuery = function(params, callback) {
 		json: true,
 		url: postUrl
 	};
-
 	request(options, function(err, res, body) {
 		if(err == null && res.statusCode == constants.CREATED) {
 			var mapResponse = new MapResponse(body);
