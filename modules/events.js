@@ -143,7 +143,7 @@ function deleteEvent(params, callback) {
 	}
 	request(options, function (error, response, body) {
 		// console.log(error, response.statusCode, body.d);
-		if(error == null && response.statusCode == constants.CREATED) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, response, newBody);

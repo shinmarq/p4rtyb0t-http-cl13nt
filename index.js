@@ -9,7 +9,8 @@ var constants = require('./constants'),
 	tableTypes = require('./modules/table-types'),
 	replies = require('./modules/replies'),
 	queries = require('./modules/queries'),
-	orders = require('./modules/orders');
+	orders = require('./modules/orders'),
+	sender = require('./modules/sender');
 
 module.exports.organisations = organisations;
 module.exports.venues = venues;
@@ -22,3 +23,4 @@ module.exports.tableTypes = tableTypes;
 module.exports.replies = replies;
 module.exports.queries = queries;
 module.exports.orders = orders;
+module.exports.sender = sender;
