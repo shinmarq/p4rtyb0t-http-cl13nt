@@ -61,7 +61,7 @@ exports.getQueryForBot = function(params, callback) {
 	var options = {};
 
 	if(params.venueId) {
-		getUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/queries";
+		getUrl = URL + "/" + params.organisationId + "/venues/" + params.venueId + "/queries/bot";
 	} else {
 		getUrl = URL + "/" + params.organisationId + "/queries/bot";
 	}
