@@ -111,9 +111,9 @@ exports.createQuery = function(params, callback) {
 };
 
 exports.updateQuery = function(params, callback) {
-	var newParams = _.omit(params, ['organisationId', 'venueId', 'queryId']);
+	var newParams = _.omit(params, ['organisationId', 'queryId']);
 	var options = {
-			url: URL + "/" + params.organisationId + "/venues/" + params.venueId + "/queries/" + params.queryId,
+			url: URL + "/" + params.organisationId + "/queries/" + params.queryId,
 			method: 'put',
 			body: newParams,
 			json: true,
