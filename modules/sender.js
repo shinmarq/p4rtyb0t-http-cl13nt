@@ -52,3 +52,26 @@ exports.createSender = function(params, callback) {
 		}
 	});
 };
+
+exports.sendMessageToSenders = function(params, callback) {
+	var postUrl = URL + "/" + params.organisationId + "/senders/send-message";
+	var newParams = _.omit(params, ['organisationId']);
+
+	var options = {
+		method: 'post',
+		body: newParams,
+		json: true,
+		url: postUrl
+	};
+
+	// console.log(options);
+	request(options, function(err, res, body){
+		if(err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
+		} else {
+			callback(err, res, null);
+		}
+	});
+};
