@@ -155,11 +155,16 @@ module.exports.getProducts = function(params, callback) {
 		getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/"+ params.productId;
 	} else {
 		if(params.tags)
-			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/?tags="+params.tags;
+			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products";
 		else
-			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products/";
+			getUrl = URL +"/" +params.organisationId + "/venues/" +params.venueId + "/products";
 	}
-	request.get(getUrl, function (error, response, body) {
+	var options = {
+		url: getUrl,
+		qs: _.omit(params, ['productId', 'organisationId', 'venueId']);
+	}
+	
+	request.get(options, function (error, response, body) {
 		if(!error && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
