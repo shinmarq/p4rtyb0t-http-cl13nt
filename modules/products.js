@@ -161,7 +161,7 @@ module.exports.getProducts = function(params, callback) {
 	}
 	var options = {
 		url: getUrl,
-		qs: _.omit(params, ['productId', 'organisationId', 'venueId']);
+		qs: _.omit(params, ['productId', 'organisationId', 'venueId'])
 	}
 	
 	request.get(options, function (error, response, body) {
