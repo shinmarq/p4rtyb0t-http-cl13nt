@@ -14,7 +14,12 @@ function getPromoters(params, callback) {
 		getUrl = getUrl + "/"+params.promoterId;
 	}
 
-	request.get(getUrl, function (error, response, body) {
+	var options = {
+		url: getUrl,
+		qs: _.omit(params, ['organisationId'])
+	};
+
+	request.get(options, function (error, response, body) {
 		if(error == null && response.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
