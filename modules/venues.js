@@ -24,6 +24,24 @@ function getAllInOrganisation (params, callback) {
 	});
 };
 
+//for user permission
+function getWithOriganisationId (params, callback) {
+	var options = {
+		url: URL+"/"+params.organisationId+"/venues",
+		qs: _.omit(params, ['organisationId'])
+	}
+	request.get(options, function (error, response, body) {
+		if(error == null && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, response, newBody);
+		} else {
+			callback(error, response, null);
+		}
+	});
+};
+
+
 function getWithOriganisationIdAndVenueId (params, callback) {
 	var options = {
 		url: URL+"/"+params.organisationId+"/venues/"+params.venueId,
