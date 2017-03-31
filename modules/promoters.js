@@ -56,6 +56,32 @@ function create(params, callback) {
 	});
 };
 
+
+module.exports.deletePromoter = function(params, callback) {
+	var updateUrl = URL +"/" +params.organisationId + "/promoters/"+ params.promoterId;
+	var options = {
+		method: 'delete',
+		json: true,
+		url: updateUrl
+	}
+
+	request(options, function (error, response, body) {
+		if(!error && response.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(null, response, newBody);
+		} else {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+
+			callback(newBody, response, null);
+		}
+	});
+
+}
+
+
 function updatePromoter(params, callback) {
 	var updateUrl = URL +"/" +params.organisationId + "/promoters/" + params.promoterId;
 	params = _.omit(params, ['organisationId', 'promoterId']);
