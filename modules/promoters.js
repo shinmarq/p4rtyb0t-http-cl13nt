@@ -57,7 +57,7 @@ function create(params, callback) {
 };
 
 
-module.exports.deletePromoter = function(params, callback) {
+function deletePromoter(params, callback) {
 	var updateUrl = URL +"/" +params.organisationId + "/promoters/"+ params.promoterId;
 	var options = {
 		method: 'delete',
